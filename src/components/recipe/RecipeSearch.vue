@@ -32,15 +32,19 @@
     <div class="flex flex-col flex-1 min-h-0">
 
       <!-- Empty -->
-      <div v-if="!isLoading && results.length === 0 && !query && !selectedCategory"
-        class="flex-1 flex flex-col items-center justify-center gap-2 text-center py-8">
+      <div
+        v-if="!isLoading && results.length === 0 && !query && !selectedCategory"
+        class="flex-1 flex flex-col items-center justify-center gap-2 text-center py-8"
+      >
         <p class="text-xs font-bold text-text-muted">Search or pick a category</p>
         <p class="text-[10px] text-border">Drag any recipe to your plan</p>
       </div>
 
       <!-- No results -->
-      <div v-else-if="!isLoading && results.length === 0"
-        class="flex-1 flex flex-col items-center justify-center gap-2 text-center py-8">
+      <div
+        v-else-if="!isLoading && results.length === 0"
+        class="flex-1 flex flex-col items-center justify-center gap-2 text-center py-8"
+      >
         <p class="text-xs font-bold text-text-muted">No results found</p>
         <p class="text-[10px] text-border">Try a different keyword</p>
       </div>
@@ -93,7 +97,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { searchMeals } from '../../services/mealdb'
+import { searchMeals, getMealsByCategory } from '../../services/mealdb'
 import { filterSafeMeals } from '../../utils/allergy'
 import { useUserStore } from '../../stores/userStore'
 import { usePagination } from '../../composables/usePagination'
@@ -142,7 +146,7 @@ async function selectCategory(category: string) {
   selectedCategory.value = category
   query.value = ''
   isLoading.value = true
-  const raw = await searchMeals(category)
+  const raw = await getMealsByCategory(category)
   results.value = filterSafeMeals(raw, userStore.dietary)
   isLoading.value = false
 }

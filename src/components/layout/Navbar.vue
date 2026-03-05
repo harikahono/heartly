@@ -11,13 +11,22 @@
           <span class="w-5 h-5 rounded-md bg-primary text-white flex items-center justify-center font-nunito font-black text-[10px]">
             {{ userInitial }}
           </span>
-          <span class="text-xs font-bold text-text hidden sm:block">{{ userStore.userName }}</span>
+          <div class="hidden sm:block leading-none">
+            <span class="text-xs font-bold text-text">{{ userStore.userName }}</span>
+            <span v-if="userStore.dietary !== 'none'" class="block text-[10px] text-text-muted mt-0.5">
+              {{ userStore.dietaryLabel }}
+            </span>
+          </div>
         </div>
 
         <div class="w-px h-4 bg-border mx-1" />
 
         <!-- Share -->
-        <button class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all" :title="copied ? 'Copied!' : 'Share'" @click="handleShare">
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all"
+          :title="copied ? 'Copied!' : 'Share'"
+          @click="handleShare"
+        >
           <svg v-if="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
           </svg>
@@ -27,14 +36,22 @@
         </button>
 
         <!-- Grocery -->
-        <button class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all" title="Grocery List" @click="$emit('toggleGrocery')">
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all"
+          title="Grocery List"
+          @click="$emit('toggleGrocery')"
+        >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
           </svg>
         </button>
 
         <!-- Reset -->
-        <button class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all" title="Reset Plan" @click="showConfirm = true">
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-text transition-all"
+          title="Reset Plan"
+          @click="showConfirm = true"
+        >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
           </svg>
@@ -43,7 +60,11 @@
         <div class="w-px h-4 bg-border mx-1" />
 
         <!-- Logout -->
-        <button class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-primary transition-all" title="Logout" @click="handleLogout">
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:bg-bg hover:text-primary transition-all"
+          title="Logout"
+          @click="handleLogout"
+        >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
@@ -52,9 +73,13 @@
     </div>
   </nav>
 
-  <!-- Modal sama -->
+  <!-- Confirm Reset Modal -->
   <Teleport to="body">
-    <div v-if="showConfirm" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4" @click.self="showConfirm = false">
+    <div
+      v-if="showConfirm"
+      class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      @click.self="showConfirm = false"
+    >
       <div class="bg-white rounded-2xl w-full max-w-sm shadow-xl animate-[slideUp_0.25s_ease_both] overflow-hidden">
         <div class="h-1 bg-primary w-full" />
         <div class="p-7 flex flex-col gap-4">
@@ -63,8 +88,18 @@
             <p class="text-sm text-text-muted mt-1 leading-relaxed">All meals will be cleared. Your profile and preferences stay saved.</p>
           </div>
           <div class="flex gap-2 pt-1">
-            <button class="flex-1 py-2.5 rounded-xl border border-border font-nunito font-bold text-sm text-text-muted hover:bg-bg transition-all" @click="showConfirm = false">Cancel</button>
-            <button class="flex-1 py-2.5 rounded-xl bg-primary font-nunito font-bold text-sm text-white hover:bg-[#e55a5a] transition-all" @click="handleReset">Yes, reset</button>
+            <button
+              class="flex-1 py-2.5 rounded-xl border border-border font-nunito font-bold text-sm text-text-muted hover:bg-bg transition-all"
+              @click="showConfirm = false"
+            >
+              Cancel
+            </button>
+            <button
+              class="flex-1 py-2.5 rounded-xl bg-primary font-nunito font-bold text-sm text-white hover:bg-[#e55a5a] transition-all"
+              @click="handleReset"
+            >
+              Yes, reset
+            </button>
           </div>
         </div>
       </div>
