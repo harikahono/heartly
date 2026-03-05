@@ -1,6 +1,8 @@
 # Heartly.
 
-> Smart weekly meal planner with allergy-aware suggestions and grocery list generation.
+Smart weekly meal planner with allergy-aware suggestions and grocery list generation.
+
+**[heartly-meal-planner.netlify.app](https://heartly-meal-planner.netlify.app)**
 
 ![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883?style=flat-square&logo=vue.js)
 ![Vite](https://img.shields.io/badge/Vite-7.x-646cff?style=flat-square&logo=vite)
@@ -10,64 +12,48 @@
 
 ---
 
-## Overview
+## What it does
 
-Heartly is a **zero-backend** weekly meal planner that helps you organize 21 meal slots (7 days × Breakfast, Lunch, Dinner) with smart dietary filtering. All data lives in your browser — no account, no server, no cost.
-
-**Live Demo →** [heartly-meal-planner.netlify.app](heartly-meal-planner.netlify.app)
+Heartly lets you plan 21 meal slots across a full week (Mon–Sun × Breakfast, Lunch, Dinner). Search or browse recipes, drag them into slots, auto-generate a full week in one click, then export a printable grocery list. Everything runs in the browser — no account, no backend, no cost.
 
 ---
 
 ## Features
 
-| Feature | Description |
+| | Feature | Description |
+|---|---|---|
+| 📅 | **Weekly Planner** | 7 days × 3 slots with drag & drop and slot swapping |
+| ✨ | **Auto Generate** | Fill all 21 slots instantly with dietary-filtered random meals |
+| 🔍 | **Recipe Search** | Keyword search + category filters with paginated results |
+| 📋 | **Recipe Detail** | Full ingredients list, step-by-step instructions, YouTube link |
+| 🛒 | **Grocery List** | Aggregates all ingredients from your plan with checkbox tracking |
+| 🖨️ | **Print** | Clean printable grocery list grouped by meal |
+| 🔗 | **Share** | Encode your plan as a URL and share with anyone |
+| 🌿 | **Dietary Filtering** | 8 dietary modes with keyword + category-level blocking |
+| 💾 | **Persistent** | Plan and profile auto-saved to localStorage |
+
+---
+
+## Dietary Modes
+
+`No Restriction` `Vegetarian` `Vegan` `Pescatarian` `No Seafood` `No Beef` `Gluten Free` `Dairy Free`
+
+Filtering runs on meal name, category, and tags. Category-level blocking (e.g. blocking the entire "Pasta" category for Gluten Free) runs first for efficiency, followed by keyword matching on meal names and tags.
+
+> Filtering is best-effort. TheMealDB's free API does not expose full ingredient lists on search and random endpoints, so meals with ambiguous names may occasionally slip through.
+
+---
+
+## Stack
+
+| | |
 |---|---|
-| **Weekly Planner Grid** | 7 days × 3 meal slots (Breakfast, Lunch, Dinner) |
-| **Drag & Drop** | Drag recipes from sidebar to any slot. Drag between slots to swap |
-| **Auto Generate** | 1-click fill all 21 slots with allergy-aware random meals |
-| **Recipe Search** | Search by keyword with 500ms debounce + paginated results |
-| **Category Filter** | Quick filter by Chicken, Seafood, Pasta, Dessert, Veggie, Beef |
-| **Recipe Detail** | Full ingredients, step-by-step instructions, YouTube link |
-| **Grocery List** | Auto-aggregate all ingredients from your current plan |
-| **Print Grocery List** | Clean printable PDF with checkboxes, grouped by meal |
-| **Share via URL** | Encode your plan to a shareable URL — send to anyone |
-| **Dietary Filtering** | 8 dietary preferences with keyword + category blocking |
-| **Persistent State** | Plan and profile saved to localStorage |
-| **Reset Plan** | Clear all meals with confirmation modal |
-
----
-
-## Dietary Preferences
-
-Heartly supports 8 dietary modes with best-effort filtering based on meal name, category, and tags:
-
-- No Restriction
-- Vegetarian
-- Vegan
-- Pescatarian
-- No Seafood
-- No Beef
-- Gluten Free
-- Dairy Free
-
-> **Note:** Filtering is best-effort — TheMealDB's free API doesn't expose full ingredient lists on search/random endpoints. Category-level blocking (e.g. blocking "Pasta" category for Gluten Free) is applied first for better accuracy.
-
----
-
-## Tech Stack
-
-```
-Vue 3          — Composition API, <script setup>
-Vite 7         — Build tool & dev server
-TypeScript     — Full type coverage
-Tailwind CSS 4 — Utility styling via @theme variables
-Pinia 3        — Global state (user, planner, drag)
-@vueuse/core   — Vue composables utility
-```
-
-**Data:** [TheMealDB](https://www.themealdb.com/api.php) — free, no API key required.
-
-**Deploy:** Static files only. Works on Vercel, Netlify, GitHub Pages — zero config.
+| **Vue 3** | Composition API, `<script setup>` throughout |
+| **Vite 7** | Dev server and static build |
+| **TypeScript** | Full type coverage across components, stores, and services |
+| **Tailwind CSS 4** | Utility-first styling via `@theme` custom tokens |
+| **Pinia** | Three stores: user, planner, drag state |
+| **TheMealDB** | Free recipe API, no key required |
 
 ---
 
@@ -76,24 +62,24 @@ Pinia 3        — Global state (user, planner, drag)
 ```
 src/
 ├── components/
-│   ├── grocery/        — GroceryList.vue
-│   ├── layout/         — Navbar.vue
-│   ├── planner/        — WeekGrid, DayColumn, MealSlot
-│   └── recipe/         — RecipeCard, RecipeModal, RecipeSearch
+│   ├── grocery/          GroceryList.vue
+│   ├── layout/           Navbar.vue
+│   ├── planner/          WeekGrid, DayColumn, MealSlot
+│   └── recipe/           RecipeCard, RecipeModal, RecipeSearch
 ├── composables/
 │   └── usePagination.ts
 ├── services/
-│   └── mealdb.ts       — TheMealDB API client + transformers
+│   └── mealdb.ts         API client + response transformers
 ├── stores/
-│   ├── dragStore.ts    — Ephemeral drag state
-│   ├── plannerStore.ts — Weekly plan + auto-generate
-│   └── userStore.ts    — User profile + dietary preference
+│   ├── dragStore.ts      Ephemeral drag state
+│   ├── plannerStore.ts   Weekly plan + auto-generate logic
+│   └── userStore.ts      User profile + dietary preference
 ├── types/
-│   └── index.ts        — All TypeScript interfaces
+│   └── index.ts
 ├── utils/
-│   ├── allergy.ts      — Dietary filter logic
-│   ├── printGrocery.ts — Print template generator
-│   └── shareUrl.ts     — URL encode/decode for plan sharing
+│   ├── allergy.ts        Dietary filter logic
+│   ├── printGrocery.ts   Print template generator
+│   └── shareUrl.ts       URL encode/decode for plan sharing
 └── views/
     ├── OnboardingView.vue
     └── PlannerView.vue
@@ -103,72 +89,63 @@ src/
 
 ## Getting Started
 
-**Requirements:** Node.js 18+, pnpm
+Requires Node.js 18+ and pnpm.
 
 ```bash
-# Clone
 git clone https://github.com/harikahono/heartly.git
 cd heartly
-
-# Install
 pnpm install
-
-# Dev server
 pnpm dev
-
-# Build
-pnpm build
-
-# Preview build
-pnpm preview
 ```
 
 Open `http://localhost:5173`
 
----
-
-## Deploy to Vercel
-
 ```bash
-# Install Vercel CLI
-pnpm add -g vercel
-
-# Deploy
-vercel --prod
+pnpm build      # production build → dist/
+pnpm preview    # preview the build locally
 ```
 
-Or connect your GitHub repo to [vercel.com](https://vercel.com) for automatic deployments on push.
+---
+
+## Deploy
+
+**Netlify (drag & drop)**
+Run `pnpm build`, then drag the `dist/` folder to [app.netlify.com/drop](https://app.netlify.com/drop).
+
+**Netlify (auto deploy)**
+Connect the GitHub repo at [netlify.com](https://netlify.com). Set build command to `pnpm build` and publish directory to `dist`. Deploys automatically on every push to `main`.
+
+The `public/_redirects` file is included to handle SPA routing:
+```
+/* /index.html 200
+```
 
 ---
 
 ## How It Works
 
 **Drag & Drop**
-Recipes from the search sidebar can be dragged into any meal slot. Dragging a filled slot onto another filled slot performs a swap — neither meal is lost.
+HTML5 native drag API. Dragging from the search sidebar into an empty slot fills it. Dragging from a filled slot into another filled slot swaps the two meals — neither is lost.
 
 **Auto Generate**
-Fetches random meals from TheMealDB in batches of 3 (per day), with up to 15 retries per slot to find a meal that passes dietary filters. 7 days × 3 slots = 21 meals total.
+Fetches random meals in batches of 3 per day (7 days × 3 slots = 21 total). Each fetch retries up to 15 times to find a meal that passes the active dietary filter before moving on.
 
 **Share URL**
-The current plan is JSON-encoded → base64 → appended as a URL query param (`?plan=...`). Anyone with the link can open it and the plan loads automatically.
+The weekly plan is serialized to JSON, base64-encoded, and appended as a `?plan=` query parameter. Opening the URL loads the shared plan automatically.
 
 **Grocery List**
-When opened, fetches full meal details for all unique meals in the current plan in parallel, then aggregates ingredients grouped by meal. Supports checkbox tracking and clean print output.
+On open, fetches full meal details for all unique meals in parallel via TheMealDB's lookup endpoint. Ingredients are grouped by meal and support checkbox state for shopping.
 
 ---
 
 ## Known Limitations
 
-- Dietary filtering is **best-effort** — based on meal name, category, and tags only. Full ingredient-level filtering would require 21 extra API calls per auto-generate
-- TheMealDB free tier has no rate limiting documentation — heavy usage may occasionally fail silently (handled with try/catch fallbacks)
-- Plan sharing via URL has a length limit depending on browser/server — very large plans may truncate
+- Dietary filtering operates on meal name, category, and tags — not full ingredient lists. Ingredient-level filtering would require up to 21 additional API calls per auto-generate cycle.
+- TheMealDB's free tier has undocumented rate limits. Heavy usage may occasionally return empty responses, which are handled silently with fallbacks.
+- Shared plan URLs grow with plan size. Very large plans may approach browser URL length limits.
 
 ---
 
 ## License
 
-MIT — do whatever you want with it.
-
----
-
-*Built with Vue 3 + Vite + Tailwind CSS. Data from TheMealDB.*
+MIT
