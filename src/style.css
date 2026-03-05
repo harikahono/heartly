@@ -1,6 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
-
+@import "tailwindcss";
 @theme {
   /* ── Colors (exact match dengan style lama) ── */
   --color-bg: #fff8f0;
@@ -45,7 +44,7 @@ h1, h2, .font-nunito {
   font-family: 'Nunito', sans-serif;
 }
 
-/* Blob background (bisa dipakai di mana saja pakai class bg-blob) */
+/* Blob background */
 .bg-blob {
   position: relative;
   overflow: hidden;

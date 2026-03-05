@@ -5,7 +5,10 @@
     <div class="hidden lg:flex w-[45%] bg-primary flex-col justify-between p-12 relative overflow-hidden flex-shrink-0">
 
       <!-- Grid texture background -->
-      <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(0deg, white 0px, white 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, white 0px, white 1px, transparent 1px, transparent 40px);"></div>
+      <div 
+        class="absolute inset-0 opacity-10" 
+        style="background-image: repeating-linear-gradient(0deg, white 0px, white 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, white 0px, white 1px, transparent 1px, transparent 40px);"
+      ></div>
 
       <!-- Top logo -->
       <div class="relative z-10">
@@ -15,7 +18,7 @@
       <!-- Center statement -->
       <div class="relative z-10">
         <p class="text-white/50 text-sm font-semibold tracking-[0.2em] uppercase mb-6">Weekly Meal Planner</p>
-        <h2 class="font-nunito text-white font-black leading-[1.05] tracking-tight" style="font-size: clamp(2.8rem, 5vw, 4.2rem);">
+        <h2 class="font-nunito text-white font-black leading-[1.05] tracking-tight text-[clamp(2.8rem,5vw,4.2rem)]">
           Eat well.<br>
           Plan once.<br>
           <span class="text-accent">Live fully.</span>
@@ -52,7 +55,7 @@
 
       <!-- Form header -->
       <div class="mb-10 animate-[slideUp_0.4s_ease_both]">
-        <h1 class="font-nunito font-black text-text tracking-tight mb-2" style="font-size: clamp(1.8rem, 3vw, 2.4rem);">
+        <h1 class="font-nunito font-black text-text tracking-tight mb-2 text-[clamp(1.8rem,3vw,2.4rem)]">
           Let's get you set up
         </h1>
         <p class="text-text-muted text-base">Takes less than 30 seconds.</p>
@@ -68,7 +71,7 @@
           <input
             v-model="name"
             type="text"
-            class="w-full px-5 py-4 bg-white border-2 border-border rounded-2xl text-base font-medium placeholder:text-text-muted focus:border-primary focus:shadow-[0_0_0_4px_rgb(255_107_107/0.1)] outline-none transition-all"
+            class="w-full px-5 py-4 bg-surface border-2 border-border rounded-2xl text-base font-medium placeholder:text-text-muted focus:border-primary focus:shadow-[0_0_0_4px_rgb(255_107_107/0.1)] outline-none transition-all"
             placeholder="e.g. Bintang"
             @keyup.enter="handleSubmit"
           />
@@ -86,7 +89,7 @@
               class="flex flex-col items-center gap-2 py-3.5 px-2 rounded-2xl border-2 transition-all"
               :class="selectedDietary === opt.value
                 ? 'border-primary bg-[#fff5f5] shadow-[0_4px_14px_rgb(255_107_107/0.2)] -translate-y-0.5'
-                : 'border-border bg-white hover:border-accent hover:bg-[#fffbeb]'"
+                : 'border-border bg-surface hover:border-accent hover:bg-[#fffbeb]'"
               @click="selectedDietary = opt.value"
             >
               <span class="text-2xl">{{ opt.emoji }}</span>
@@ -105,7 +108,7 @@
           <button
             class="w-full py-4 rounded-2xl font-nunito font-black text-base tracking-wide transition-all duration-200"
             :class="name.trim()
-              ? 'bg-primary text-white shadow-[0_4px_20px_rgb(255_107_107/0.4)] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(255_107_107/0.45)] active:scale-[0.98]'
+              ? 'bg-primary text-white shadow-[var(--shadow-pop)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-hover)] active:scale-[0.98]'
               : 'bg-border text-text-muted cursor-not-allowed'"
             :disabled="!name.trim()"
             @click="handleSubmit"
