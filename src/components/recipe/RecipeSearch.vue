@@ -55,6 +55,7 @@
           v-for="meal in paginated"
           :key="meal.id"
           :meal="meal"
+          @preview="selectedMealId = $event"
         />
       </div>
 
@@ -93,6 +94,13 @@
       </p>
     </div>
   </div>
+
+  <!-- Recipe detail modal -->
+  <RecipeModal
+    v-if="selectedMealId"
+    :meal-id="selectedMealId"
+    @close="selectedMealId = null"
+  />
 </template>
 
 <script setup lang="ts">
@@ -103,12 +111,14 @@ import { useUserStore } from '../../stores/userStore'
 import { usePagination } from '../../composables/usePagination'
 import type { Meal } from '../../types'
 import RecipeCard from './RecipeCard.vue'
+import RecipeModal from './RecipeModal.vue'
 
 const userStore = useUserStore()
 const query = ref('')
 const results = ref<Meal[]>([])
 const isLoading = ref(false)
 const selectedCategory = ref<string | null>(null)
+const selectedMealId = ref<string | null>(null)
 
 const { currentPage, totalPages, paginated, pages, goTo, reset } = usePagination(() => results.value, 5)
 watch(results, () => reset())

@@ -4,6 +4,7 @@
     draggable="true"
     @dragstart="handleDragStart"
     @dragend="handleDragEnd"
+    @click="$emit('preview', meal.id)"
   >
     <!-- Thumbnail -->
     <div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-border">
@@ -32,6 +33,8 @@ import type { Meal } from '../../types'
 import { useDragStore } from '../../stores/dragStore'
 
 const props = defineProps<{ meal: Meal }>()
+defineEmits<{ preview: [mealId: string] }>()
+
 const dragStore = useDragStore()
 
 function handleDragStart(e: DragEvent) {

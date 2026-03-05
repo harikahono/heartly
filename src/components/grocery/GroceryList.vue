@@ -1,19 +1,19 @@
 <template>
   <Teleport to="body">
-    <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4" @click.self="$emit('close')">
-      <div class="bg-white rounded-3xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col shadow-2xl animate-[slideUp_0.3s_cubic-bezier(0.34,1.56,0.64,1)_both]">
+    <div class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4" @click.self="$emit('close')">
+      <div class="bg-white rounded-2xl w-full max-w-lg max-h-[88vh] overflow-hidden flex flex-col shadow-2xl animate-[slideUp_0.25s_ease_both]">
 
         <!-- Header -->
-        <div class="flex items-center justify-between p-5 border-b border-border">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-border">
           <div>
-            <h2 class="font-nunito font-black text-xl text-text">Grocery List</h2>
-            <p class="text-xs text-text-muted mt-0.5">{{ totalMeals }} meals · {{ totalIngredients }} ingredients</p>
+            <h2 class="font-nunito font-black text-base text-text">Grocery List</h2>
+            <p class="text-[10px] text-text-muted mt-0.5">{{ totalMeals }} meals · {{ totalIngredients }} ingredients</p>
           </div>
           <div class="flex items-center gap-2">
-            <button class="px-4 py-2 bg-[#f0fdf4] border-2 border-[#bbf7d0] text-[#16a34a] rounded-2xl font-nunito font-bold text-xs hover:bg-[#dcfce7] transition-all" @click="handlePrint">
+            <button class="px-3 py-1.5 rounded-lg border border-border text-xs font-nunito font-bold text-text-muted hover:border-text-muted hover:text-text transition-all" @click="handlePrint">
               Print
             </button>
-            <button class="w-9 h-9 bg-[#fff5f5] border-2 border-[#fecaca] text-[#ef4444] rounded-full font-bold flex items-center justify-center hover:bg-[#fee2e2] transition-all" @click="$emit('close')">
+            <button class="w-7 h-7 rounded-lg border border-border text-text-muted text-xs font-black flex items-center justify-center hover:border-text-muted hover:text-text transition-all" @click="$emit('close')">
               ✕
             </button>
           </div>
@@ -21,36 +21,43 @@
 
         <!-- Loading -->
         <div v-if="isLoading" class="flex flex-col items-center justify-center py-16 gap-3">
-          <span class="text-4xl animate-bounce">🛒</span>
-          <p class="font-nunito font-bold text-text-muted text-sm">Collecting ingredients...</p>
+          <div class="w-7 h-7 border-2 border-border border-t-primary rounded-full animate-spin" />
+          <p class="text-xs font-bold text-text-muted">Collecting ingredients...</p>
         </div>
 
         <!-- Empty -->
-        <div v-else-if="groupedIngredients.length === 0" class="flex flex-col items-center justify-center py-16 gap-3">
-          <span class="text-5xl">🍽️</span>
+        <div v-else-if="groupedIngredients.length === 0" class="flex flex-col items-center justify-center py-16 gap-2">
           <p class="font-nunito font-black text-text">No meals planned yet</p>
-          <p class="text-text-muted text-sm">Add meals to your planner first</p>
+          <p class="text-xs text-text-muted">Add meals to your planner first</p>
         </div>
 
         <!-- Ingredient list -->
-        <div v-else class="overflow-y-auto flex-1 p-5 flex flex-col gap-4">
+        <div v-else class="overflow-y-auto flex-1 p-5 flex flex-col gap-5">
           <div v-for="group in groupedIngredients" :key="group.mealName">
-            <div class="flex items-center gap-2 mb-2">
-              <img :src="group.thumb" :alt="group.mealName" class="w-7 h-7 rounded-full object-cover border-2 border-border" />
-              <p class="font-nunito font-black text-sm text-text">{{ group.mealName }}</p>
-              <span class="text-[10px] text-text-muted ml-auto">{{ group.ingredients.length }} items</span>
+
+            <!-- Meal header -->
+            <div class="flex items-center gap-2.5 mb-2.5">
+              <img :src="group.thumb" :alt="group.mealName" class="w-8 h-8 rounded-lg object-cover border border-border flex-shrink-0" />
+              <div class="flex-1 min-w-0">
+                <p class="font-nunito font-black text-xs text-text truncate">{{ group.mealName }}</p>
+                <p class="text-[10px] text-text-muted">{{ group.ingredients.length }} items</p>
+              </div>
             </div>
-            <div class="grid grid-cols-2 gap-1.5 pl-9">
-              <label v-for="ing in group.ingredients" :key="ing.name" class="flex items-center gap-2 p-2 rounded-xl hover:bg-[#fafafa] cursor-pointer transition-all">
+
+            <!-- Ingredients grid -->
+            <div class="grid grid-cols-2 gap-1 pl-10">
+              <label v-for="ing in group.ingredients" :key="ing.name" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-bg cursor-pointer transition-all">
                 <input
                   type="checkbox"
                   :checked="checkedItems.has(`${group.mealName}-${ing.name}`)"
-                  class="w-3.5 h-3.5 accent-[#ff6b6b] rounded cursor-pointer flex-shrink-0"
+                  class="w-3 h-3 accent-primary cursor-pointer flex-shrink-0"
                   @change="toggleCheck(group.mealName, ing.name)"
                 />
                 <div class="min-w-0">
-                  <p class="text-[11px] font-bold leading-tight truncate transition-all"
-                    :class="checkedItems.has(`${group.mealName}-${ing.name}`) ? 'line-through text-text-muted' : 'text-text'">
+                  <p
+                    class="text-[11px] font-bold leading-tight truncate transition-all"
+                    :class="checkedItems.has(`${group.mealName}-${ing.name}`) ? 'line-through text-text-muted' : 'text-text'"
+                  >
                     {{ ing.name }}
                   </p>
                   <p class="text-[10px] text-text-muted">{{ ing.measure }}</p>
@@ -60,16 +67,16 @@
           </div>
         </div>
 
-        <!-- Footer progress -->
-        <div v-if="!isLoading && groupedIngredients.length > 0" class="p-4 border-t border-border">
+        <!-- Footer -->
+        <div v-if="!isLoading && groupedIngredients.length > 0" class="px-5 py-3 border-t border-border">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-xs font-bold text-text-muted">{{ checkedItems.size }} / {{ totalIngredients }} checked</p>
-            <button v-if="checkedItems.size > 0" class="text-xs text-primary font-bold hover:underline" @click="checkedItems.clear()">
+            <p class="text-[10px] font-bold text-text-muted">{{ checkedItems.size }} / {{ totalIngredients }} checked</p>
+            <button v-if="checkedItems.size > 0" class="text-[10px] font-bold text-text-muted hover:text-text transition-colors" @click="checkedItems.clear()">
               Clear all
             </button>
           </div>
-          <div class="h-2 bg-border rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-primary to-[#ff8e53] rounded-full transition-all duration-500" :style="{ width: `${progressPercent}%` }" />
+          <div class="h-1 bg-border rounded-full overflow-hidden">
+            <div class="h-full bg-primary rounded-full transition-all duration-500" :style="{ width: `${progressPercent}%` }" />
           </div>
         </div>
 
