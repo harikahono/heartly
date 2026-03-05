@@ -64,7 +64,7 @@
         <div v-if="!isLoading && groupedIngredients.length > 0" class="p-4 border-t border-border">
           <div class="flex items-center justify-between mb-2">
             <p class="text-xs font-bold text-text-muted">{{ checkedItems.size }} / {{ totalIngredients }} checked</p>
-            <button v-if="checkedItems.size > 0" class="text-xs text-primary font-bold hover:underline" @click="checkedItems.value.clear()">
+            <button v-if="checkedItems.size > 0" class="text-xs text-primary font-bold hover:underline" @click="checkedItems.clear()">
               Clear all
             </button>
           </div>
