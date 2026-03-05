@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+@theme {
+  /* ── Colors (exact match dengan style lama) ── */
+  --color-bg: #fff8f0;
+  --color-surface: #ffffff;
+  --color-primary: #ff6b6b;
+  --color-primary-light: #ff8e53;
+  --color-accent: #ffd93d;
+  --color-border: #f3f4f6;
+  --color-input-bg: #fafafa;
+  --color-text: #374151;
+  --color-text-soft: #9ca3af;
+  --color-text-muted: #6b7280;
+
+  /* ── Radius (playful squishy) ── */
+  --radius-sm: 14px;
+  --radius: 28px;
+  --radius-lg: 36px;
+
+  /* ── Shadow (exact match card + button) ── */
+  --shadow-card: 0 8px 40px rgb(255 107 107 / 0.12), 0 2px 12px rgb(0 0 0 / 0.06);
+  --shadow-pop: 0 4px 16px rgb(255 107 107 / 0.35);
+  --shadow-hover: 0 8px 24px rgb(255 107 107 / 0.45);
+}
+
+/* Global font setup */
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Hapus scroll utama — layout harus fit dalam viewport */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+h1, h2, .font-nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Blob background (bisa dipakai di mana saja pakai class bg-blob) */
+.bg-blob {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-blob::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #ffe8d6 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.bg-blob::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #d4f5e0 0%, transparent 70%);
+  bottom: -80px;
+  left: -80px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* === Playful Animations (global) === */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px) rotate(-5deg); }
+  50%      { transform: translateY(-14px) rotate(5deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50%      { transform: rotate(5deg); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
