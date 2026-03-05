@@ -14,7 +14,7 @@
 
 Heartly is a **zero-backend** weekly meal planner that helps you organize 21 meal slots (7 days × Breakfast, Lunch, Dinner) with smart dietary filtering. All data lives in your browser — no account, no server, no cost.
 
-**Live Demo →** [heartly.vercel.app](https://heartly.vercel.app) *(deploy yours)*
+**Live Demo →** [heartly-meal-planner.netlify.app](heartly-meal-planner.netlify.app)
 
 ---
 
