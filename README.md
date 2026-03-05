@@ -107,7 +107,7 @@ src/
 
 ```bash
 # Clone
-git clone https://github.com/yourusername/heartly.git
+git clone https://github.com/harikahono/heartly.git
 cd heartly
 
 # Install
